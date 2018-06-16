@@ -1,8 +1,8 @@
 const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
 const fs = require('fs');
 
-const { createNote, saveNote } = require('./app_modules/file_operations.js');
-
+const { createNote, saveNote } = require('./app_modules/dataops');
+const { initStorage, getSavedNotes } = require('./app_modules/fileops');
   let win
   let menu
 
@@ -31,12 +31,12 @@ const { createNote, saveNote } = require('./app_modules/file_operations.js');
           new MenuItem({
             label: 'New',
             accelerator: 'CmdOrCtrl+N',
-            click: () => { createNote(win, app); }
+            click: () => { createNote(win); }
           }),
           new MenuItem({
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
-            click: () => { saveNote(win, app); }
+            click: () => { saveNote(win); }
           })
         ]
       },
@@ -86,11 +86,9 @@ const { createNote, saveNote } = require('./app_modules/file_operations.js');
     menu = new Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu);
     // and load the index.html of the app.
-    win.loadURL('http://localhost:3000')
-  
+    win.loadURL('http://localhost:3000');
     // Open the DevTools.
     win.webContents.openDevTools()
-  
     // Emitted when the window is closed.
     win.on('closed', () => {
       win = null
