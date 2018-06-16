@@ -11,7 +11,7 @@ const container_style = {
 };
 
 export default class DisplayContainer extends React.Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -27,6 +27,7 @@ export default class DisplayContainer extends React.Component {
                 content: this.props.selected_content
             });
         }
+        document.getElementsByTagName('textarea')[0].value = this.state.content;
     }
 
     handleKeyDown(e) {
@@ -39,6 +40,11 @@ export default class DisplayContainer extends React.Component {
     }
 
     render() {
+        window.require('electron').ipcRenderer.on(
+            'GetFileContents',
+            (event, args)=>{
+                event.sender.send('NewFileContents',this.state);
+        });
         return (
             <div className="container-fluid w-75 bg-light p-0" style={container_style}>
                 <div className="d-flex w-100 justify-content-between">

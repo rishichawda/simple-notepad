@@ -1,11 +1,19 @@
-const {app, BrowserWindow, Menu, MenuItem} = require('electron')
+const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
 
   let win
   let menu
 
+  function create_new() { 
+    win.webContents.send('GetFileContents','Did you get this?')
+    ipcMain.once('NewFileContents',(event, args)=>{
+      console.log(args);
+    });
+   }
+
   function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({width: 1100, height: 700});
+    win.loadURL('http://localhost:3000')
     const template = [
       {
         label: app.getName(),
@@ -25,8 +33,20 @@ const {app, BrowserWindow, Menu, MenuItem} = require('electron')
         label: 'File',
         submenu: [
           new MenuItem({
+            label: 'New',
+            accelerator: 'CmdOrCtrl+N',
+            click: () => { 
+              create_new();
+             }
+          }),
+          new MenuItem({
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
+            click: () => { console.log('time to print stuff') }
+          }),
+          new MenuItem({
+            label: 'Save as',
+            accelerator: 'CmdOrCtrl+Shift+S',
             click: () => { console.log('time to print stuff') }
           }),
         ]

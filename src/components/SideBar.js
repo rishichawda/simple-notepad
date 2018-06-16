@@ -22,7 +22,7 @@ export default class SideBar extends React.Component {
                 return (
                     <div className="note-item" key={key} onClick={this.props.on_click}>
                         <div id={'note'+(key+1)} className="pl-2 py-3" style={list_style}>
-                            {value}
+                            {value.title}
                         </div>
                     </div>
                 );
