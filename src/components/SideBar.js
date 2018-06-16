@@ -12,12 +12,11 @@ const list_style = {
 
 export default class SideBar extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     list_notes(list){
-        list = list();
         return list.map( 
             (value,key) => {
                 return (

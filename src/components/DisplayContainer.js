@@ -1,9 +1,5 @@
 import React from 'react';
 
-const header_style = {
-    height: '7%'
-};
-
 const container_style = {
     height: '100vh',
     float: 'right',
@@ -34,19 +30,10 @@ export default class DisplayContainer extends React.Component {
         document.getElementsByTagName('textarea')[0].value = this.state.content;
     }
 
-    handleKeyDown(e) {
-        var initial_height = (getComputedStyle(e.target)).getPropertyValue('height');
-        initial_height = initial_height.slice(0,initial_height.length-2);
-        if(e.key==='Enter') {
-            console.log(e.target.lineCount)
-            e.target.style.height = (+initial_height + 16) + 'px';
-        }
-    }
-
     render() {
         window.require('electron').ipcRenderer.on(
             'GetFileContents',
-            (event, args)=>{
+            (event, args) =>{
                 event.sender.send('NewFileContents',this.state);
         });
         window.require('electron').ipcRenderer.on(

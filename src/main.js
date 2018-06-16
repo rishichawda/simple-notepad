@@ -85,6 +85,11 @@ const { initStorage, getSavedNotes } = require('./app_modules/fileops');
     ]
     menu = new Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu);
+    var notes = getSavedNotes();
+    notes = JSON.stringify(notes["data"])
+    ipcMain.on('GetNotes', (event)=>{
+      win.webContents.send('ReadStorageContents',notes)
+    });
     // and load the index.html of the app.
     win.loadURL('http://localhost:3000');
     // Open the DevTools.
