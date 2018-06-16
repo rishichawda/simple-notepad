@@ -54,6 +54,47 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
             click: () => { save_note(); }
           })
         ]
+      },
+      {
+        label: 'Edit',
+        submenu: [
+          {role: 'undo'},
+          {role: 'redo'},
+          {type: 'separator'},
+          {role: 'cut'},
+          {role: 'copy'},
+          {role: 'paste'},
+          {role: 'pasteandmatchstyle'},
+          {role: 'delete'},
+          {role: 'selectall'}
+        ]
+      },
+      {
+        label: 'View',
+        submenu: [
+          {role: 'reload'},
+          {role: 'forcereload'},
+          {type: 'separator'},
+          {role: 'resetzoom'},
+          {type: 'separator'},
+          {role: 'togglefullscreen'}
+        ]
+      },
+      {
+        role: 'window',
+        submenu: [
+          {role: 'minimize'},
+          {role: 'close'}
+        ]
+      },
+      {
+        role: 'help',
+        submenu: [
+          {
+            label: 'Learn More',
+            click () { require('electron').shell.openExternal('https://rishichawda.github.io') }
+          }
+        ]
       }
     ]
     menu = new Menu.buildFromTemplate(template)

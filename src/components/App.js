@@ -59,6 +59,7 @@ export default class App extends React.Component {
         content: this.getContent(e.target.innerHTML)
       }
     });
+    document.getElementsByTagName('textarea')[0].focus();
   }
 
   render() {
