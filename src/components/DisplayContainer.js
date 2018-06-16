@@ -16,6 +16,10 @@ export default class DisplayContainer extends React.Component {
         super(props);
         this.state = {
             title: this.props.selected_note_title,
+            content: this.props.selected_content,
+        }
+        this.initial_note = {
+            title: this.props.selected_note_title,
             content: this.props.selected_content
         }
     }
@@ -24,7 +28,7 @@ export default class DisplayContainer extends React.Component {
         if(this.state.title !== this.props.selected_note_title) {
             this.setState({
                 title: this.props.selected_note_title,
-                content: this.props.selected_content
+                content: this.props.selected_content,
             });
         }
         document.getElementsByTagName('textarea')[0].value = this.state.content;
@@ -44,6 +48,15 @@ export default class DisplayContainer extends React.Component {
             'GetFileContents',
             (event, args)=>{
                 event.sender.send('NewFileContents',this.state);
+        });
+        window.require('electron').ipcRenderer.on(
+            'GetUpdatedFileContents',
+            (event, args)=>{
+                if(this.state.content !== document.getElementsByTagName('textarea')[0].value) {
+                    event.sender.send('UpdatedFileContents',this.state);
+                } else {
+                    event.sender.send('UpdatedFileContents', false);
+                }
         });
         return (
             <div className="container-fluid w-75 bg-light p-0" style={container_style}>

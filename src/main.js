@@ -3,12 +3,23 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
   let win
   let menu
 
-  function create_new() { 
+  function create_note() { 
     win.webContents.send('GetFileContents','Did you get this?')
     ipcMain.once('NewFileContents',(event, args)=>{
       console.log(args);
     });
    }
+
+   function save_note() { 
+    win.webContents.send('GetUpdatedFileContents','Did you get this?')
+    ipcMain.once('UpdatedFileContents',(event, args)=>{
+      if(args) {
+        console.log(args);
+      } else {
+        console.log('Nothing changed!')
+      }
+    });
+    }
 
   function createWindow () {
     // Create the browser window.
@@ -35,20 +46,13 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
           new MenuItem({
             label: 'New',
             accelerator: 'CmdOrCtrl+N',
-            click: () => { 
-              create_new();
-             }
+            click: () => { create_note(); }
           }),
           new MenuItem({
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
-            click: () => { console.log('time to print stuff') }
-          }),
-          new MenuItem({
-            label: 'Save as',
-            accelerator: 'CmdOrCtrl+Shift+S',
-            click: () => { console.log('time to print stuff') }
-          }),
+            click: () => { save_note(); }
+          })
         ]
       }
     ]

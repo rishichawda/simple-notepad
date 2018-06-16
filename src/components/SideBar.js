@@ -17,6 +17,7 @@ export default class SideBar extends React.Component {
     }
 
     list_notes(list){
+        list = list();
         return list.map( 
             (value,key) => {
                 return (
