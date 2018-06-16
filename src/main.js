@@ -1,25 +1,10 @@
 const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
+const fs = require('fs');
+
+const { createNote, saveNote } = require('./app_modules/file_operations.js');
 
   let win
   let menu
-
-  function create_note() { 
-    win.webContents.send('GetFileContents','Did you get this?')
-    ipcMain.once('NewFileContents',(event, args)=>{
-      console.log(args);
-    });
-   }
-
-   function save_note() { 
-    win.webContents.send('GetUpdatedFileContents','Did you get this?')
-    ipcMain.once('UpdatedFileContents',(event, args)=>{
-      if(args) {
-        console.log(args);
-      } else {
-        console.log('Nothing changed!')
-      }
-    });
-    }
 
   function createWindow () {
     // Create the browser window.
@@ -46,12 +31,12 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
           new MenuItem({
             label: 'New',
             accelerator: 'CmdOrCtrl+N',
-            click: () => { create_note(); }
+            click: () => { createNote(win, app); }
           }),
           new MenuItem({
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
-            click: () => { save_note(); }
+            click: () => { saveNote(win, app); }
           })
         ]
       },
@@ -84,7 +69,8 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
         role: 'window',
         submenu: [
           {role: 'minimize'},
-          {role: 'close'}
+          {role: 'close'},
+          {role: 'maximize'}
         ]
       },
       {
@@ -98,13 +84,6 @@ const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
       }
     ]
     menu = new Menu.buildFromTemplate(template)
-
-    menu.append(new MenuItem({
-      label: 'Print',
-      accelerator: 'CmdOrCtrl+P',
-      click: () => { console.log('time to print stuff') }
-    }))
-
     Menu.setApplicationMenu(menu);
     // and load the index.html of the app.
     win.loadURL('http://localhost:3000')
