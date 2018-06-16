@@ -1,0 +1,57 @@
+import React from 'react';
+
+const header_style = {
+    height: '7%'
+};
+
+const container_style = {
+    height: '100vh',
+    float: 'right',
+    borderLeft: 'solid 1px rgba(0, 0, 0, 0.2)'
+};
+
+export default class DisplayContainer extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: this.props.selected_note_title,
+            content: this.props.selected_content
+        }
+    }
+
+    componentDidUpdate(){
+        if(this.state.title !== this.props.selected_note_title) {
+            this.setState({
+                title: this.props.selected_note_title,
+                content: this.props.selected_content
+            });
+        }
+    }
+
+    handleKeyDown(e) {
+        var initial_height = (getComputedStyle(e.target)).getPropertyValue('height');
+        initial_height = initial_height.slice(0,initial_height.length-2);
+        if(e.key==='Enter') {
+            console.log(e.target.lineCount)
+            e.target.style.height = (+initial_height + 16) + 'px';
+        }
+    }
+
+    render() {
+        return (
+            <div className="container-fluid w-75 bg-light p-0" style={container_style}>
+                <div className="d-flex w-100 justify-content-between">
+                    <div id="note-title" className="card-body lead w-50">
+                        {this.state.title}
+                    </div>
+                    <small className="text-muted pr-2 pt-2">07th June, 2018</small>
+                    <small className="text-muted pr-2 pt-2">07 : 07 : 07 (GMT)</small>
+                </div>
+                <div id="editor" className="container bg-white pl-5 pt-4 lead">
+                    <textarea className="w-100 h-100"></textarea>
+                </div>
+            </div>
+        );
+    }
+}
