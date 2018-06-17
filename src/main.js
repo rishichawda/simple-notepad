@@ -87,11 +87,11 @@ const { initialiseSyncUtility } = require('./app_modules/syncops');
     ]
     menu = new Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu);
-    var notes = getSavedNotes();
-    notes = JSON.stringify(notes.data)
     ipcMain.on(
       'GetNotes',
       (event) => {
+        var notes = getSavedNotes();
+        notes = JSON.stringify(notes.data)
         win.webContents.send('ReadStorageContents',notes)
     });
     // and load the index.html of the app.

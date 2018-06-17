@@ -14,31 +14,9 @@ export default class DisplayContainer extends React.Component {
             title: this.props.selected_note_title,
             content: this.props.selected_content,
         }
-        this.initial_note = {
-            title: this.props.selected_note_title,
-            content: this.props.selected_content
-        }
     }
 
-    componentWillReceiveProps() {
-        if(this.state.content !== this.props.selected_content) {
-            this.setState({
-                content: this.props.selected_content
-            })
-        }
-    }
-
-    componentDidUpdate(){
-        if(this.state.title !== this.props.selected_note_title) {
-            this.setState({
-                title: this.props.selected_note_title,
-                content: this.props.selected_content,
-            });
-        }
-        document.getElementsByTagName('textarea')[0].value = this.state.content;
-    }
-
-    render() {
+    componentDidMount() {
         window.require('electron').ipcRenderer.on(
             'GetFileContents',
             (event, args) =>{
@@ -55,10 +33,26 @@ export default class DisplayContainer extends React.Component {
                             content: document.getElementsByTagName('textarea')[0].value
                         }
                     );
+                    this.setState({
+                        content: document.getElementsByTagName('textarea')[0].value
+                    })
                 } else {
                     event.sender.send('UpdatedFileContents', false);
                 }
         });
+    }
+
+    componentDidUpdate(){
+        if(this.state.title !== this.props.selected_note_title) {
+            this.setState({
+                title: this.props.selected_note_title,
+                content: this.props.selected_content,
+            });
+        }
+        document.getElementsByTagName('textarea')[0].value = this.state.content;
+    }
+
+    render() {
         return (
             <div className="container-fluid w-75 bg-light p-0" style={container_style}>
                 <div className="d-flex w-100 justify-content-between">

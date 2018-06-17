@@ -5,7 +5,7 @@ function initialise(obj) {
 }
 
   function inform(data) {
-    win.webContents.send('UpdateStorage', data);
+    win.webContents.send('UpdateStorage', JSON.stringify(data));
   }
 
   module.exports = {

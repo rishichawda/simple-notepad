@@ -18,19 +18,32 @@ export default class App extends React.Component {
     };
     this.getNotesList();
   }
-
+  
   getNotesList() {
-    var notes;
+    window.require('electron').ipcRenderer.on(
+      'UpdateStorage',
+      (event, data)=>{
+        var notes = JSON.parse(data);
+        this.setState({
+          note_items: notes
+        })
+        console.log('update storage')
+    });
     window.require('electron').ipcRenderer.send('GetNotes');
     window.require('electron').ipcRenderer.on(
       'ReadStorageContents',
       (event, data) => {
-        notes = JSON.parse(data);
+        var notes = JSON.parse(data);
         this.setState({
           note_items: notes
-        })
+        });
+        console.log('read storage')
       }
     );
+  }
+
+  updateNotesList = (data) => {
+    console.log(data);
   }
 
   getContent = (title) => {
@@ -53,14 +66,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    window.require('electron').ipcRenderer.on(
-      'UpdateStorage',
-      (event, data) => {
-        this.setState({
-          note_items: data
-        })
-      }
-    );
     return (
       <div id="main-container" className="container-fluid w-100">
           <SideBar on_click={this.handleClick} list={this.state.note_items}/>
@@ -69,6 +74,5 @@ export default class App extends React.Component {
       </div>
     );
   }
-
 }
 
