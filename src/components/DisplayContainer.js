@@ -40,7 +40,13 @@ export default class DisplayContainer extends React.Component {
             'GetUpdatedFileContents',
             (event, args)=>{
                 if(this.state.content !== document.getElementsByTagName('textarea')[0].value) {
-                    event.sender.send('UpdatedFileContents',this.state);
+                    event.sender.send(
+                        'UpdatedFileContents',
+                        {
+                            title: this.state.title,
+                            content: document.getElementsByTagName('textarea')[0].value
+                        }
+                    );
                 } else {
                     event.sender.send('UpdatedFileContents', false);
                 }

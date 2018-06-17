@@ -1,4 +1,5 @@
-const { app } = require('electron');
+const { app, ipcMain } = require('electron');
+const { informAppRenderer } = require('../main');
 const fs = require('fs');
 
 const path = app.getPath('appData');
@@ -15,10 +16,8 @@ function init_file() {
               filepath,
               'w'
             );
-            fs.writeFileSync(file, JSON.stringify({}));
-          } else {
-            fs.write
           }
+          fs.writeFileSync(file, JSON.stringify({}));
       });
     } else {
       fs.mkdirSync(
@@ -44,9 +43,25 @@ function save_file(data) {
   );
 }
 
+function update_flie(data) {
+  var key;
+  var filedata = read_file();
+  console.log(filedata)
+  console.log('====================================')
+  filedata.data.filter((value, index)=>{
+    if (value.title === data.title) {
+      key = index
+    }
+  });
+  filedata.data[key] = data;
+  save_file(filedata);
+  informAppRenderer(filedata.data);
+}
+
 module.exports = {
   readFile: read_file,
   saveFile: save_file,
   initStorage: init_file,
-  getSavedNotes: read_file
+  getSavedNotes: read_file,
+  saveNoteToFile: update_flie
 }

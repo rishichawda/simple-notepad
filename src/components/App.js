@@ -17,6 +17,14 @@ export default class App extends React.Component {
       }
     };
     this.getNotesList();
+    window.require('electron').ipcRenderer.on(
+      'UpdateStorage',
+      (event, data) => {
+        this.setState({
+          note_items: data
+        })
+      }
+    );
   }
 
   getNotesList() {
@@ -36,10 +44,10 @@ export default class App extends React.Component {
   getContent = (title) => {
     var object = this.state.note_items.filter(
       (value) => {
-        return value["title"] === title
+        return value.title === title
       }
     );
-    return object[0]["content"];
+    return object[0].content;
   }
 
   handleClick = (e) => {

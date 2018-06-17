@@ -3,13 +3,15 @@ const fs = require('fs');
 
 const { createNote, saveNote } = require('./app_modules/dataops');
 const { initStorage, getSavedNotes } = require('./app_modules/fileops');
+const { initialiseSyncUtility } = require('./app_modules/syncops');
+
   let win
   let menu
 
   function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({width: 1100, height: 700});
-    win.loadURL('http://localhost:3000')
+    win.loadFile('../public/index.html');
     const template = [
       {
         label: app.getName(),
@@ -86,9 +88,11 @@ const { initStorage, getSavedNotes } = require('./app_modules/fileops');
     menu = new Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu);
     var notes = getSavedNotes();
-    notes = JSON.stringify(notes["data"])
-    ipcMain.on('GetNotes', (event)=>{
-      win.webContents.send('ReadStorageContents',notes)
+    notes = JSON.stringify(notes.data)
+    ipcMain.on(
+      'GetNotes',
+      (event) => {
+        win.webContents.send('ReadStorageContents',notes)
     });
     // and load the index.html of the app.
     win.loadURL('http://localhost:3000');
@@ -98,6 +102,8 @@ const { initStorage, getSavedNotes } = require('./app_modules/fileops');
     win.on('closed', () => {
       win = null
     })
+
+    initialiseSyncUtility(win);
   }
   
   app.on('ready', createWindow)
