@@ -103,6 +103,7 @@ const { initialiseSyncUtility } = require('./app_modules/syncops');
       win = null
     })
 
+    initStorage();
     initialiseSyncUtility(win);
   }
   

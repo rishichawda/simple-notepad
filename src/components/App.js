@@ -26,8 +26,8 @@ export default class App extends React.Component {
         var notes = JSON.parse(data);
         this.setState({
           note_items: notes
-        })
-        console.log('update storage')
+        });
+        console.log('read storage')
     });
     window.require('electron').ipcRenderer.send('GetNotes');
     window.require('electron').ipcRenderer.on(
