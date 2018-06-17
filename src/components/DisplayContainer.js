@@ -18,11 +18,6 @@ export default class DisplayContainer extends React.Component {
 
     componentDidMount() {
         window.require('electron').ipcRenderer.on(
-            'GetFileContents',
-            (event, args) =>{
-                event.sender.send('NewFileContents',this.state);
-        });
-        window.require('electron').ipcRenderer.on(
             'GetUpdatedFileContents',
             (event, args)=>{
                 if(this.state.content !== document.getElementsByTagName('textarea')[0].value) {

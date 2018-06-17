@@ -1,13 +1,14 @@
-const { ipcMain } = require('electron');
+const { ipcMain, dialog } = require('electron');
 const { saveFile, readFile, saveNoteToFile } = require('./fileops');
 
 function create_note(win) {
-  win.webContents.send('GetFileContents', 'Did you get this?')
-  ipcMain.once(
-    'NewFileContents',
-    (event, args) => {
-      console.log(args);
-  });
+  console.log('Write code to create new');
+  // win.webContents.send('GetFileContents', 'Did you get this?')
+  // ipcMain.once(
+  //   'NewFileContents',
+  //   (event, args) => {
+  //     console.log(args);
+  // });
 }
 
 function save_note(win) {
@@ -15,7 +16,10 @@ function save_note(win) {
   ipcMain.once(
     'UpdatedFileContents',
     (event, args) => {
-      if (args) {
+      if(args.title === '') {
+        args.title = args.content.substring(0, args.content.indexOf('.') + 1);
+      }
+      if (args.title !== '' && args) {
         saveNoteToFile(args);
       } else {
         console.log('nothing to change');

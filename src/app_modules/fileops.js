@@ -51,7 +51,12 @@ function update_flie(data) {
       key = index
     }
   });
-  filedata.data[key] = data;
+  if(key) {
+    filedata.data[key] = data;
+  } else {
+    key = (filedata.data).length;
+    filedata.data[key] = data;
+  }
   save_file(filedata);
   informAppRenderer(filedata.data);
 }
