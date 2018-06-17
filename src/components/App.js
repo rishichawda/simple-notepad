@@ -17,14 +17,6 @@ export default class App extends React.Component {
       }
     };
     this.getNotesList();
-    window.require('electron').ipcRenderer.on(
-      'UpdateStorage',
-      (event, data) => {
-        this.setState({
-          note_items: data
-        })
-      }
-    );
   }
 
   getNotesList() {
@@ -61,6 +53,14 @@ export default class App extends React.Component {
   }
 
   render() {
+    window.require('electron').ipcRenderer.on(
+      'UpdateStorage',
+      (event, data) => {
+        this.setState({
+          note_items: data
+        })
+      }
+    );
     return (
       <div id="main-container" className="container-fluid w-100">
           <SideBar on_click={this.handleClick} list={this.state.note_items}/>

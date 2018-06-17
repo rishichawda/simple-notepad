@@ -1,5 +1,5 @@
 const { app, ipcMain } = require('electron');
-const { informAppRenderer } = require('../main');
+const { informAppRenderer } = require('./syncops');
 const fs = require('fs');
 
 const path = app.getPath('appData');
@@ -46,8 +46,6 @@ function save_file(data) {
 function update_flie(data) {
   var key;
   var filedata = read_file();
-  console.log(filedata)
-  console.log('====================================')
   filedata.data.filter((value, index)=>{
     if (value.title === data.title) {
       key = index

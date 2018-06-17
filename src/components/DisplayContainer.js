@@ -20,6 +20,14 @@ export default class DisplayContainer extends React.Component {
         }
     }
 
+    componentWillReceiveProps() {
+        if(this.state.content !== this.props.selected_content) {
+            this.setState({
+                content: this.props.selected_content
+            })
+        }
+    }
+
     componentDidUpdate(){
         if(this.state.title !== this.props.selected_note_title) {
             this.setState({
