@@ -1,9 +1,13 @@
 {
-  "name": "Notes",
+  "name": "ElectronNotes",
   "version": "0.1.0",
   "private": true,
   "main": "src/main.js",
-  "productName": "Notes",
+  "productName": "ElectronNotes",
+  "author": {
+    "name": "rishichawda",
+    "url": "www.github.com/rishichawda"
+  },
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
