@@ -17,7 +17,15 @@ function save_note(win) {
     'UpdatedFileContents',
     (event, args) => {
       if(args.title === '') {
-        args.title = args.content.substring(0, args.content.indexOf('.') + 1);
+        if(args.content.indexOf('.')===-1) {
+          if(args.content.indexOf('\n')===-1) {
+            args.title = args.content
+          } else {
+            args.title = args.content.substring(0, args.content.indexOf('\n') + 1);
+          }
+        } else {
+          args.title = args.content.substring(0, args.content.indexOf('.') + 1);
+        }
       }
       if (args.title !== '' && args) {
         saveNoteToFile(args);

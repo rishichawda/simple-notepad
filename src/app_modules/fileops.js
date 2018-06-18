@@ -16,8 +16,8 @@ function init_file() {
               filepath,
               'w'
             );
+            fs.writeFileSync(filepath, JSON.stringify({data:[]}));
           }
-          fs.writeFileSync(filepath, JSON.stringify({data:[]}));
       });
     } else {
       fs.mkdirSync(
