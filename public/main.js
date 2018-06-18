@@ -1,5 +1,7 @@
 const {app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
 const fs = require('fs');
+const url = require('url');
+const path = require('path');
 
 const { createNote, saveNote } = require('./app_modules/dataops');
 const { initStorage, getSavedNotes } = require('./app_modules/fileops');
@@ -11,7 +13,12 @@ const { initialiseSyncUtility } = require('./app_modules/syncops');
   function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({width: 1100, height: 700});
-    win.loadFile('../public/index.html');
+    const startUrl = process.env.ELECTRON_START_URL || url.format({
+      pathname: path.join(__dirname, '/../build/index.html'),
+      protocol: 'file:',
+      slashes: true
+    });
+    win.loadURL(startUrl);
     const template = [
       {
         label: app.getName(),

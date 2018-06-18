@@ -2,8 +2,9 @@
   "name": "ElectronNotes",
   "version": "0.1.0",
   "private": true,
-  "main": "src/main.js",
+  "main": "public/main.js",
   "productName": "ElectronNotes",
+  "homepage": "./",
   "author": {
     "name": "rishichawda",
     "url": "www.github.com/rishichawda"
@@ -14,11 +15,12 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "concurrently \"BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electron .\""
+    
   },
   "devDependencies": {
     "bootstrap": "^4.1.1",
